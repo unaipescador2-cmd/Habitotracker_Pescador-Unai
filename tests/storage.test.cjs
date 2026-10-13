@@ -100,3 +100,21 @@ test('guarda un registro diario asociado a un hábito y por defecto inicia no cu
   assert.equal(registros[0].fecha, '2026-10-13');
   assert.equal(registros[0].cumplido, false);
 });
+
+test('calcula estadísticas básicas de hábitos y registros actuales', () => {
+  const storage = createStorage();
+  const hoy = new Date().toISOString().split('T')[0];
+
+  storage.guardarDatos([], []);
+  const habito1 = storage.agregarHabito({ nombre: 'Leer', categoria: 'Estudio' });
+  const habito2 = storage.agregarHabito({ nombre: 'Caminar', categoria: 'Salud' });
+
+  storage.registrarDia(habito1.id, hoy, true);
+  storage.registrarDia(habito2.id, hoy, false);
+
+  const stats = storage.obtenerEstadisticas();
+  assert.equal(stats.totalHabitos, 2);
+  assert.equal(stats.hoyCumplidos, 1);
+  assert.equal(stats.hoyPendientes, 1);
+  assert.equal(stats.totalRegistros, 2);
+});

@@ -108,6 +108,22 @@
     borrarCookie(RECORDS_COOKIE);
   }
 
+  function obtenerEstadisticas() {
+    const { habitos, registros } = cargarDatos();
+    const hoy = new Date().toISOString().split('T')[0];
+    const registrosHoy = registros.filter((registro) => registro.fecha === hoy);
+    const hoyCumplidos = registrosHoy.filter((registro) => registro.cumplido).length;
+    const hoyPendientes = registrosHoy.filter((registro) => !registro.cumplido).length;
+
+    return {
+      totalHabitos: habitos.length,
+      totalRegistros: registros.length,
+      hoyCumplidos,
+      hoyPendientes,
+      registrosHoy,
+    };
+  }
+
   global.HabitotrackerStorage = Object.freeze({
     guardarCookie,
     leerCookie,
@@ -115,6 +131,7 @@
     guardarDatos,
     agregarHabito,
     registrarDia,
+    obtenerEstadisticas,
     cargarDatos,
     borrarDatos,
   });

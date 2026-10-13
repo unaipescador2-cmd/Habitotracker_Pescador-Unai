@@ -76,6 +76,20 @@ function renderCounts() {
   document.querySelector('#record-count').textContent = registros.length;
 }
 
+function renderStatistics() {
+  const stats = storage.obtenerEstadisticas();
+
+  const totalHabitos = document.querySelector('#stats-total-habitos');
+  const hoyCumplidos = document.querySelector('#stats-hoy-cumplidos');
+  const hoyPendientes = document.querySelector('#stats-hoy-pendientes');
+  const totalRegistros = document.querySelector('#stats-total-registros');
+
+  if (totalHabitos) totalHabitos.textContent = stats.totalHabitos;
+  if (hoyCumplidos) hoyCumplidos.textContent = stats.hoyCumplidos;
+  if (hoyPendientes) hoyPendientes.textContent = stats.hoyPendientes;
+  if (totalRegistros) totalRegistros.textContent = stats.totalRegistros;
+}
+
 function renderHabitOptions() {
   const select = document.querySelector('#record-habit');
   if (!select) {
@@ -153,6 +167,7 @@ if (form) {
       renderCounts();
       renderHabits();
       renderHabitOptions();
+      renderStatistics();
     } catch (error) {
       window.alert(error.message);
     }
@@ -176,6 +191,7 @@ if (recordForm) {
       renderCounts();
       renderHabits();
       renderStatusTable();
+      renderStatistics();
       recordForm.reset();
       recordForm.querySelector('#record-date').valueAsDate = new Date();
     } catch (error) {
@@ -200,6 +216,7 @@ if (statusTable) {
       renderCounts();
       renderHabits();
       renderStatusTable();
+      renderStatistics();
     } catch (error) {
       window.alert(error.message);
     }
@@ -210,4 +227,5 @@ renderCounts();
 renderHabits();
 renderHabitOptions();
 renderStatusTable();
+renderStatistics();
 setupMenu();
