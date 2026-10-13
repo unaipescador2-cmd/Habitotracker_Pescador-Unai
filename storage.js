@@ -27,6 +27,29 @@
     guardarCookie(RECORDS_COOKIE, JSON.stringify(registros));
   }
 
+  function agregarHabito(habito) {
+    if (!habito || typeof habito !== 'object') {
+      throw new TypeError('El hábito debe ser un objeto.');
+    }
+
+    const nombre = String(habito.nombre ?? '').trim();
+    if (!nombre) {
+      throw new TypeError('El nombre del hábito no puede estar vacío.');
+    }
+
+    const { habitos, registros } = cargarDatos();
+    const nuevoHabito = {
+      id: habito.id || `habito-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+      nombre,
+      descripcion: String(habito.descripcion ?? '').trim(),
+      categoria: String(habito.categoria ?? '').trim() || 'General',
+    };
+
+    habitos.push(nuevoHabito);
+    guardarDatos(habitos, registros);
+    return nuevoHabito;
+  }
+
   function leerArrayCookie(nombre) {
     const value = leerCookie(nombre);
     if (value === null) return [];
@@ -56,6 +79,7 @@
     leerCookie,
     borrarCookie,
     guardarDatos,
+    agregarHabito,
     cargarDatos,
     borrarDatos,
   });

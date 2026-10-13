@@ -69,3 +69,19 @@ test('rechaza valores que no sean arrays', () => {
   const storage = createStorage();
   assert.throws(() => storage.guardarDatos({}, []), { name: 'TypeError' });
 });
+
+test('agrega un hábito válido y evita nombres vacíos', () => {
+  const storage = createStorage();
+
+  storage.guardarDatos([], []);
+  storage.agregarHabito({ nombre: 'Leer 20 minutos', descripcion: 'Antes de dormir', categoria: 'Estudio' });
+
+  const { habitos } = storage.cargarDatos();
+  assert.equal(habitos.length, 1);
+  assert.equal(habitos[0].nombre, 'Leer 20 minutos');
+  assert.equal(habitos[0].categoria, 'Estudio');
+  assert.throws(
+    () => storage.agregarHabito({ nombre: '   ', descripcion: 'vacio', categoria: 'Salud' }),
+    { name: 'TypeError' },
+  );
+});

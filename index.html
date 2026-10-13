@@ -43,7 +43,38 @@
             <span class="metric-label">Registros diarios</span>
           </div>
         </div>
-        <p class="empty-note">Aquí aparecerán tus hábitos y sus registros.</p>
+
+        <div class="habit-panel">
+          <form id="habit-form" class="habit-form">
+            <div class="field">
+              <label for="habit-name">Nombre del hábito</label>
+              <input id="habit-name" name="nombre" type="text" placeholder="Ej. Leer 20 minutos" required />
+            </div>
+
+            <div class="field">
+              <label for="habit-description">Descripción</label>
+              <textarea id="habit-description" name="descripcion" rows="2" placeholder="Ej. Antes de dormir..."></textarea>
+            </div>
+
+            <div class="field">
+              <label for="habit-category">Categoría</label>
+              <select id="habit-category" name="categoria">
+                <option value="Estudio">Estudio</option>
+                <option value="Salud">Salud</option>
+                <option value="Deporte">Deporte</option>
+                <option value="Hábito personal">Hábito personal</option>
+                <option value="General">General</option>
+              </select>
+            </div>
+
+            <button type="submit">Guardar hábito</button>
+          </form>
+
+          <div class="habit-list-wrap">
+            <h3>Hábitos</h3>
+            <ul id="habit-list" class="habit-list" aria-live="polite"></ul>
+          </div>
+        </div>
       </section>
     </main>
 
