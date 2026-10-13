@@ -1,5 +1,75 @@
 const storage = window.HabitotrackerStorage;
 
+function renderStatusTable() {
+  const table = document.querySelector('#status-table');
+  if (!table) {
+    return;
+  }
+
+  const tbody = table.querySelector('tbody');
+  const { habitos, registros } = storage.cargarDatos();
+  const hoy = new Date().toISOString().split('T')[0];
+
+  if (!habitos.length) {
+    tbody.innerHTML = '<tr><td colspan="3">No hay hábitos para mostrar.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = habitos.map((habito) => {
+    const registro = registros.find((item) => item.habitoId === habito.id && item.fecha === hoy);
+    const checked = registro ? registro.cumplido : false;
+
+    return `
+      <tr>
+        <td>${habito.nombre}</td>
+        <td>${habito.categoria || 'General'}</td>
+        <td>
+          <input
+            type="checkbox"
+            data-habito-id="${habito.id}"
+            data-fecha="${hoy}"
+            ${checked ? 'checked' : ''}
+          />
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function setupMenu() {
+  const openButton = document.querySelector('#open-menu');
+  const closeButton = document.querySelector('#close-menu');
+  const modal = document.querySelector('#menu-modal');
+
+  if (!openButton || !closeButton || !modal) {
+    return;
+  }
+
+  openButton.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+  });
+
+  closeButton.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+  });
+
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      modal.classList.add('hidden');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+      modal.classList.add('hidden');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  });
+}
+
 function renderCounts() {
   const { habitos, registros } = storage.cargarDatos();
   document.querySelector('#habit-count').textContent = habitos.length;
@@ -105,8 +175,31 @@ if (recordForm) {
       storage.registrarDia(habitoId, fecha, cumplido, observaciones);
       renderCounts();
       renderHabits();
+      renderStatusTable();
       recordForm.reset();
       recordForm.querySelector('#record-date').valueAsDate = new Date();
+    } catch (error) {
+      window.alert(error.message);
+    }
+  });
+}
+
+const statusTable = document.querySelector('#status-table');
+if (statusTable) {
+  statusTable.addEventListener('change', (event) => {
+    const checkbox = event.target;
+    if (!(checkbox instanceof HTMLInputElement) || checkbox.type !== 'checkbox') {
+      return;
+    }
+
+    const habitoId = checkbox.dataset.habitoId;
+    const fecha = checkbox.dataset.fecha;
+
+    try {
+      storage.registrarDia(habitoId, fecha, checkbox.checked);
+      renderCounts();
+      renderHabits();
+      renderStatusTable();
     } catch (error) {
       window.alert(error.message);
     }
@@ -116,3 +209,5 @@ if (recordForm) {
 renderCounts();
 renderHabits();
 renderHabitOptions();
+renderStatusTable();
+setupMenu();

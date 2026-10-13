@@ -34,6 +34,26 @@ body {
   border-bottom: 1px solid rgba(32, 43, 44, 0.08);
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+}
+
+.menu-button,
+.close-button,
+.menu-nav button {
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.menu-button {
+  background: rgba(40, 116, 94, 0.12);
+  color: var(--green);
+  font-weight: 700;
+  padding: 8px 12px;
+}
+
 .wordmark {
   display: inline-flex;
   align-items: center;
@@ -312,6 +332,90 @@ button {
 .checkbox-line input {
   width: auto;
   margin: 0;
+}
+
+.status-panel {
+  padding: 24px 26px 30px;
+  border-top: 1px solid var(--line);
+}
+
+.status-panel h3 {
+  margin: 0 0 18px;
+  font-size: 20px;
+}
+
+.status-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.status-table th,
+.status-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.status-table input[type='checkbox'] {
+  width: auto;
+  transform: scale(1.2);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(18, 28, 28, 0.4);
+  z-index: 20;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-panel {
+  position: relative;
+  width: min(420px, calc(100vw - 32px));
+  background: white;
+  border-radius: 16px;
+  padding: 18px 20px 20px;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 45px rgba(18, 28, 28, 0.15);
+  z-index: 21;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.close-button {
+  width: 32px;
+  height: 32px;
+  font-size: 24px;
+  background: #eef4f2;
+  color: var(--ink);
+}
+
+.menu-nav {
+  display: grid;
+  gap: 10px;
+}
+
+.menu-nav button {
+  text-align: left;
+  padding: 10px 12px;
+  background: #f5f8f7;
+  color: var(--ink);
 }
 
 footer {
