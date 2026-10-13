@@ -75,6 +75,33 @@
             <ul id="habit-list" class="habit-list" aria-live="polite"></ul>
           </div>
         </div>
+
+        <div class="record-panel">
+          <h3>Registrar día</h3>
+          <form id="record-form" class="record-form">
+            <div class="field">
+              <label for="record-habit">Hábito</label>
+              <select id="record-habit" name="habitoId"></select>
+            </div>
+
+            <div class="field">
+              <label for="record-date">Fecha</label>
+              <input id="record-date" name="fecha" type="date" required />
+            </div>
+
+            <label class="checkbox-line">
+              <input id="record-done" name="cumplido" type="checkbox" />
+              <span>Completado</span>
+            </label>
+
+            <div class="field">
+              <label for="record-observations">Observaciones</label>
+              <textarea id="record-observations" name="observaciones" rows="2" placeholder="Ej. Lo hice antes de dormir..."></textarea>
+            </div>
+
+            <button type="submit">Guardar registro</button>
+          </form>
+        </div>
       </section>
     </main>
 

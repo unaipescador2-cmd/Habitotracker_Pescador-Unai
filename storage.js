@@ -50,6 +50,40 @@
     return nuevoHabito;
   }
 
+  function registrarDia(habitoId, fecha, cumplido = false, observaciones = '') {
+    if (!habitoId || !String(habitoId).trim()) {
+      throw new TypeError('Debes seleccionar un hábito.');
+    }
+
+    if (!fecha || !String(fecha).trim()) {
+      throw new TypeError('La fecha es obligatoria.');
+    }
+
+    const { habitos, registros } = cargarDatos();
+    const habitoExiste = habitos.some((habito) => habito.id === habitoId);
+    if (!habitoExiste) {
+      throw new TypeError('El hábito seleccionado no existe.');
+    }
+
+    const nuevoRegistro = {
+      id: `registro-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+      habitoId,
+      fecha,
+      cumplido: Boolean(cumplido),
+      observaciones: String(observaciones ?? '').trim(),
+    };
+
+    const index = registros.findIndex((registro) => registro.habitoId === habitoId && registro.fecha === fecha);
+    if (index >= 0) {
+      registros[index] = { ...registros[index], ...nuevoRegistro, id: registros[index].id };
+    } else {
+      registros.push(nuevoRegistro);
+    }
+
+    guardarDatos(habitos, registros);
+    return index >= 0 ? registros[index] : nuevoRegistro;
+  }
+
   function leerArrayCookie(nombre) {
     const value = leerCookie(nombre);
     if (value === null) return [];
@@ -80,6 +114,7 @@
     borrarCookie,
     guardarDatos,
     agregarHabito,
+    registrarDia,
     cargarDatos,
     borrarDatos,
   });

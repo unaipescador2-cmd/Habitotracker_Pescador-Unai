@@ -280,6 +280,40 @@ button {
   padding: 4px 8px;
 }
 
+.habit-state {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.record-panel {
+  padding: 24px 26px 30px;
+  border-top: 1px solid var(--line);
+}
+
+.record-panel h3 {
+  margin: 0 0 18px;
+  font-size: 20px;
+}
+
+.record-form {
+  display: grid;
+  gap: 16px;
+}
+
+.checkbox-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.checkbox-line input {
+  width: auto;
+  margin: 0;
+}
+
 footer {
   padding: 54px 20px 28px;
   text-align: center;

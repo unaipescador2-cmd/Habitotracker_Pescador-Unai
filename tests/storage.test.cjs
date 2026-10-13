@@ -85,3 +85,18 @@ test('agrega un hábito válido y evita nombres vacíos', () => {
     { name: 'TypeError' },
   );
 });
+
+test('guarda un registro diario asociado a un hábito y por defecto inicia no cumplido', () => {
+  const storage = createStorage();
+
+  storage.guardarDatos([], []);
+  const habito = storage.agregarHabito({ nombre: 'Caminar', categoria: 'Salud' });
+  const registro = storage.registrarDia(habito.id, '2026-10-13', false);
+
+  const { registros } = storage.cargarDatos();
+  assert.equal(registro.cumplido, false);
+  assert.equal(registros.length, 1);
+  assert.equal(registros[0].habitoId, habito.id);
+  assert.equal(registros[0].fecha, '2026-10-13');
+  assert.equal(registros[0].cumplido, false);
+});
