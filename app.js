@@ -70,6 +70,26 @@ function setupMenu() {
   });
 }
 
+function resetAllData() {
+  const confirmed = window.confirm('¿Seguro que quieres borrar todos los hábitos y registros guardados?');
+  if (!confirmed) {
+    return;
+  }
+
+  storage.borrarDatos();
+  renderCounts();
+  renderHabits();
+  renderHabitOptions();
+  renderStatusTable();
+  renderStatistics();
+
+  const recordForm = document.querySelector('#record-form');
+  if (recordForm) {
+    recordForm.reset();
+    recordForm.querySelector('#record-date').valueAsDate = new Date();
+  }
+}
+
 function renderCounts() {
   const { habitos, registros } = storage.cargarDatos();
   document.querySelector('#habit-count').textContent = habitos.length;
@@ -221,6 +241,11 @@ if (statusTable) {
       window.alert(error.message);
     }
   });
+}
+
+const deleteDataButton = document.querySelector('#delete-data');
+if (deleteDataButton) {
+  deleteDataButton.addEventListener('click', resetAllData);
 }
 
 renderCounts();
